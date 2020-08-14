@@ -1,1 +1,1 @@
-//main.j
+console.log("hello world");

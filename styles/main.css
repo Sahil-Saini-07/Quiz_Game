@@ -1,2 +1,47 @@
 /*main.scss */
+body {
+  font-family: 'Karla', sans-serif;
+  background: #4b79a1;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#4b79a1), to(#283e51));
+  background: linear-gradient(to right, #4b79a1, #283e51);
+}
+
+header {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+.content-outer-container {
+  margin-top: 2rem;
+}
+
+.content-body {
+  min-height: 70vh;
+}
+
+.point {
+  border: 2px solid;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+}
+
+#progressContainer {
+  margin-top: 1rem;
+}
+
+#question {
+  border: 2px solid;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 2rem;
+}
+
+.option {
+  border: 2px solid;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
 /*# sourceMappingURL=main.css.map */
