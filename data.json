@@ -1,0 +1,17 @@
+{
+	"easy": [{
+		"Question": "Who was the first President of India",
+		"Options": "Dr. Rajendra Prasad,ABJ Abdul Kalam,Indira Gandhi,Lala Rajpat Rai",
+		"Answer": "Dr. Rajendra Prasad"
+	}],
+	"intermediate": [{
+		"Question": "Who made Linux kernel?",
+		"Options": "Guido van Rossum,Dennis Ritchie,Tim Berners-Lee,Linus Torvalds",
+		"Answer": "Linus Torvalds"
+	}],
+	"difficult": [{
+		"Question": "The Aapki Beti scheme is associated to which of the following state governments?",
+		"Options": "Uttar Pradesh,Rajasthan,Chhattisgarh,Madhya Pradesh",
+		"Answer": "Rajasthan"
+	}]
+}

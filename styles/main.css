@@ -1,11 +1,10 @@
 /*main.scss */
 body {
   font-family: 'Karla', sans-serif;
-  background: #4b79a1;
-  /* fallback for old browsers */
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-gradient(linear, left top, right top, from(#4b79a1), to(#283e51));
-  background: linear-gradient(to right, #4b79a1, #283e51);
+  color: white;
+  background: -webkit-gradient(linear, left top, right top, from(#42275a), to(#734b6d));
+  background: linear-gradient(to right, #42275a, #734b6d);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 header {
