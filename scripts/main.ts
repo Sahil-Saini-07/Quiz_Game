@@ -17,47 +17,13 @@
 //   });
 // });
 
+ import { QuizObject } from './QuizObject.js';
+ import { jsonObj } from './jsonObj.js';
 
-let  jsonObj = {
-	"easy": [{
-		"Question": "Who was the first President of India",
-		"Options": "Dr. Rajendra Prasad,ABJ Abdul Kalam,Indira Gandhi,Lala Rajpat Rai",
-		"Answer": "Dr. Rajendra Prasad"
-	}],
-	"intermediate": [{
-		"Question": "Who made Linux kernel?",
-		"Options": "Guido van Rossum,Dennis Ritchie,Tim Berners-Lee,Linus Torvalds",
-		"Answer": "Linus Torvalds"
-	}],
-	"difficult": [{
-		"Question": "The Aapki Beti scheme is associated to which of the following state governments?",
-		"Options": "Uttar Pradesh,Rajasthan,Chhattisgarh,Madhya Pradesh",
-		"Answer": "Rajasthan"
-	}]
-};
-
-class Question {
-   question:string;
-   options: string;
-   answer: string;
-      
-   constructor(question:string, options:string, answer:string){
-    this.question = question;
-    this.options = options;
-    this.answer = answer;
-   }
-   
-   getQuestion():string {
-      return this.question;
-   }
-
-   getOptions():string {
-        return this.options;
-   }
-
-   getAnswer():string {
-       return this.answer;
-   }
+enum DifficultyLevel {
+   EASY = 0,
+   MEDIUM = 1,
+   DIFFICULT = 2
 }
 
 interface QuestionInterface {
@@ -66,22 +32,114 @@ interface QuestionInterface {
    Answer: string;
 }
 
-let easyQuestions:Question[] = [];
-let intermediateQuestions:Question[] =[];
-let difficultQuestions:Question[] = [];
+let easyQuestions:QuizObject[] = [];
+let intermediateQuestions:QuizObject[] =[];
+let difficultQuestions:QuizObject[] = [];
+let questionDOMElement:HTMLElement;
+let questionOptionsList:HTMLCollection;
+let currentQuestion: QuizObject;
+let counter:number = 0;
 
-console.log(jsonObj.easy);
-getEntries(jsonObj.easy, easyQuestions);
-getEntries(jsonObj.intermediate, intermediateQuestions);
-getEntries(jsonObj.difficult, difficultQuestions);
 
-function getEntries(obj: QuestionInterface[] , array: Question[]):void {
-   var entry = obj[0];
-   var question:string =  entry.Question;
-   var answer:string = entry.Answer;
-   var options:string =entry.Options;
+document.addEventListener("DOMContentLoaded", function(event) {
+   getEntries(jsonObj.easy, easyQuestions);
+   getEntries(jsonObj.intermediate, intermediateQuestions);
+   getEntries(jsonObj.difficult, difficultQuestions);
+  
+   questionDOMElement = document.getElementById("question")!;
+   questionOptionsList = document.getElementsByClassName("option");
 
-   var questionObject = new Question(question, options, answer);
-   array.push(questionObject);
-   console.log(array);
+   for (var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
+      questionOptionsList[iterator].addEventListener("click", function(event:Event) {
+        evaluateOption(event.target);
+      });
+   }
+
+   selectQuestion(DifficultyLevel.EASY);
+
+});
+
+
+function getEntries(obj: QuestionInterface[] , array: QuizObject[]):void {
+   for(var iterator:number = 0; iterator < obj.length; iterator++) {
+      var entry = obj[iterator];
+      var question:string =  entry.Question;
+      var answer:string = entry.Answer;
+      var options:string =entry.Options;
+      var questionObject = new QuizObject(question, options, answer);
+      array.push(questionObject);
+   }
+}
+
+
+function evaluateOption(eventTarget:any) {
+   var selectedOptionText:string = (eventTarget as HTMLElement).dataset.value!;
+   console.log(counter);
+   var progressDot = document.getElementById("progress-"+counter)!;
+   if(selectedOptionText == currentQuestion.getAnswer()) {
+      (eventTarget as HTMLElement).classList.add("correct-answer");
+      progressDot.classList.add("correct-answer") ;
+      setTimeout(function() {
+         if(counter> 4 && counter < 8) {
+            selectQuestion(DifficultyLevel.MEDIUM);
+         } else if (counter >= 8) {
+            selectQuestion(DifficultyLevel.DIFFICULT);
+         } else if(counter == 10){
+           alert("You won"); //reload
+           location.reload();
+         }
+         else{
+            selectQuestion(DifficultyLevel.EASY);
+         }
+         
+
+      },1000)
+   } else {
+      (eventTarget as HTMLElement).classList.add("incorrect-answer");
+      progressDot.classList.add("incorrect-answer") ;
+      setTimeout(function() {
+         alert("Game over");
+         location.reload(); //temporary fix
+      },1000)
+
+   } 
+}
+
+
+function selectQuestion(difficulty:number) {
+   let quizObject:QuizObject = new QuizObject("", "","");
+
+   switch(difficulty) {
+      case DifficultyLevel.EASY:
+         quizObject = easyQuestions[ Math.floor(Math.random() * easyQuestions.length)];
+         easyQuestions.slice(0,1);
+         break;
+      case DifficultyLevel.MEDIUM :
+         quizObject = intermediateQuestions[ Math.floor(Math.random() * intermediateQuestions.length)];
+         intermediateQuestions.slice(0,1);
+         break;
+      
+      case DifficultyLevel.DIFFICULT :
+         quizObject = difficultQuestions[ Math.floor(Math.random() * intermediateQuestions.length)];
+         difficultQuestions.slice(0,1);
+         break;
+
+      default:
+         console.log("default");
+   }
+   currentQuestion = quizObject;
+   counter += 1;
+   printQuestion(quizObject);
+}
+
+
+function printQuestion(quizObject: QuizObject) {
+   (questionDOMElement as HTMLElement).innerText = quizObject.getQuestion();
+   let optionArray: string[] = quizObject.getOptions().split(",");
+   for(var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
+      (questionOptionsList[iterator] as HTMLElement).innerText = (iterator + 1) + ". " +  optionArray[iterator];
+      (questionOptionsList[iterator] as HTMLElement).dataset.value = optionArray[iterator];
+      (questionOptionsList[iterator] as HTMLElement).classList.remove("correct-answer");
+   }
+
 }

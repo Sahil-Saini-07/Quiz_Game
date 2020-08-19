@@ -23,7 +23,10 @@ header {
 .point {
   border: 2px solid;
   padding: 0.5rem;
-  border-radius: 0.2rem;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
 }
 
 #progressContainer {
@@ -32,15 +35,41 @@ header {
 
 #question {
   border: 2px solid;
-  margin-top: 1rem;
   padding: 0.5rem;
   font-size: 2rem;
+  border-radius: 5px;
 }
 
 .option {
   border: 2px solid;
+  border-radius: 5px;
   margin-top: 1rem;
   padding: 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: -webkit-gradient(linear, left top, right top, from(#eb3349), to(#f45c43));
+  background: linear-gradient(to right, #eb3349, #f45c43);
+  border-color: transparent;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.correct-answer {
+  border-color: transparent;
+  background: -webkit-gradient(linear, left top, right top, from(#56ab2f), to(#a8e063)) !important;
+  background: linear-gradient(to right, #56ab2f, #a8e063) !important;
+}
+
+.incorrect-answer {
+  border-color: transparent;
+  background: -webkit-gradient(linear, left top, right top, from(#ed213a), to(#93291e)) !important;
+  background: linear-gradient(to right, #ed213a, #93291e) !important;
+}
+
+.progress {
+  background-color: #d6ae7b !important;
 }
 /*# sourceMappingURL=main.css.map */
