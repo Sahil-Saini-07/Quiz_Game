@@ -38,7 +38,17 @@ export let jsonObj = {
             "Question": "Who painted the Mona Lisa?",
             "Options": "Pablo Picasso,Leonardo da Vinci,Edvard Munch,Grant Wood",
             "Answer": "Leonardo da Vinci"
-        }
+        },
+        {
+            "Question": "Hitler party which came into power in 1933 is known as",
+            "Options": "Labour Party,Nazi Party,Ku-Klux-Klan,Democratic Party",
+            "Answer": "Nazi Party"
+        },
+        {
+            "Question": "India's first satellite is named after",
+            "Options": "Ramanujan,Bhaskara II,Bhaskara I,Aryabhatta",
+            "Answer": "Aryabhatta"
+        },
     ],
     "intermediate": [{
             "Question": "Who made Linux kernel?",
@@ -68,6 +78,11 @@ export let jsonObj = {
             "Question": "Para athlete Deepa Malik (1st women to win medal in Paralympic games) who announced retirement is associated with which sports?",
             "Options": "Triple Jump,Javelin Throw,Shot Put,Long jump",
             "Answer": "Shot Put"
+        },
+        {
+            "Question": "How many times has Brazil won the World Cup Football Championship?",
+            "Options": "Four times,Twice,Five times,Once",
+            "Answer": "Five times"
         }
     ],
     "difficult": [{
@@ -89,6 +104,11 @@ export let jsonObj = {
             "Question": "The headquarters of Reserve Bank of India is",
             "Options": "Mumbai,Kolkata,Chennai,New Delhi",
             "Answer": "Mumbai"
+        },
+        {
+            "Question": "First human heart transplant operation conducted by Dr. Christiaan Barnard on Louis Washkansky, was conducted in",
+            "Options": "1967,1968,1958,1990",
+            "Answer": "1967"
         }
     ]
 };
