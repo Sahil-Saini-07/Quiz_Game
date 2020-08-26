@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/main.css">
-    <title>Quiz Game</title>
+    <title>Quiz Mania</title>
 
 </head>
   <body>
     <header class="text-center">
-      Welcome to Quiz Game
+      Quiz Mania
     </header>
-    <div class="container content-outer-container">
+    <div class="container content-outer-container" id="quizContainerDiv">
       <div class="row content-body">
         <div id="quizContainer" class="col-9">
           <div id="question" class="my-4">
@@ -53,6 +53,14 @@
         </div>
  
       </div>
+    </div>
+    <div id="resultDiv" class="d-flex flex-column justify-content-center align-items-center d-none">
+      <div id="resultText">
+        You lost
+      </div>
+      <button type="button" class="btn btn-primary mt-4" id="playAgainButton"> 
+        Play again
+      </button>
     </div>
     
     <script src="./scripts/main.js" type="module"></script>

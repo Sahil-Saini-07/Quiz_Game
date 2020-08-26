@@ -1,21 +1,3 @@
-// let response: Promise<any> = fetch("data.json");
-// if((response as).ok) {
-//     let json = await response.json();
-// } 
-// import $ from "../node_modules/jquery/dist/jquery";
-// import $ from "../node_modules/jquery/dist/jquery";
-// $(document).ready(function() {
-//    console.log("hello");
-//    $.ajax({
-//       url : "data.json", 
-//       error: function(data) {
-//         console.log(data);
-//       },
-//       success : function( data:string ) {
-//           console.log(data);
-//       }
-//   });
-// });
 import { QuizObject } from './QuizObject.js';
 import { jsonObj } from './jsonObj.js';
 var DifficultyLevel;
@@ -39,6 +21,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     getEntries(jsonObj.difficult, difficultQuestions);
     questionDOMElement = document.getElementById("question");
     questionOptionsList = document.getElementsByClassName("option");
+    document.getElementById("playAgainButton").addEventListener("click", function () {
+        location.reload();
+    });
     for (var iterator = 0; iterator < questionOptionsList.length; iterator++) {
         questionOptionsList[iterator].addEventListener("click", function (event) {
             evaluateOption(event.target);
@@ -85,8 +70,7 @@ function evaluateOption(eventTarget) {
                 selectQuestion(DifficultyLevel.DIFFICULT);
             }
             else {
-                alert("You won"); //reload
-                location.reload();
+                displayResult(true);
             }
         }, 1000);
     }
@@ -94,8 +78,7 @@ function evaluateOption(eventTarget) {
         eventTarget.classList.add("incorrect-answer");
         progressDot.classList.add("incorrect-answer");
         globalTimer = setTimeout(function () {
-            alert("Game over");
-            location.reload(); //temporary fix
+            displayResult(false);
         }, 1000);
     }
 }
@@ -144,4 +127,17 @@ function printQuestion(quizObject) {
 }
 function getRandomIndex(array) {
     return Math.floor(Math.random() * array.length);
+}
+function displayResult(wonGame) {
+    let quizContainer = document.getElementById("quizContainerDiv");
+    let resultDiv = document.getElementById("resultDiv");
+    let resultText = document.getElementById("resultText");
+    quizContainer.classList.add("d-none");
+    resultDiv.classList.remove("d-none");
+    if (wonGame) {
+        resultText.innerText = "You Won";
+    }
+    else {
+        resultText.innerText = "You Lost";
+    }
 }
