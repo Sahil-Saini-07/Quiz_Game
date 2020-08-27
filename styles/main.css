@@ -80,4 +80,8 @@ header {
 #resultText {
   font-size: 2rem;
 }
+
+.hide-element {
+  display: none !important;
+}
 /*# sourceMappingURL=main.css.map */
