@@ -1,5 +1,6 @@
 import { QuizObject } from './QuizObject';
-import { jsonObj } from './jsonObj';
+//import { jsonObj } from './jsonObj';
+import $ from 'jquery';
 
 enum DifficultyLevel {
    EASY = 0,
@@ -13,6 +14,7 @@ interface QuestionInterface {
    Answer: string;
 }
 
+let jsonObj:any;
 let easyQuestions:QuizObject[] = []; //list holding easy level questions
 let intermediateQuestions:QuizObject[] =[];  //list holding medium level questions 
 let difficultQuestions:QuizObject[] = []; //list holding difficult level questions
@@ -23,8 +25,23 @@ let counter:number = 0; //counter to track progress
 let globalTimer:number; //global timer
 
 
-document.addEventListener("DOMContentLoaded", function(event) {
-   //getting QuizObject objects 
+$(document).ready(function(event) {
+   $.ajax("data.json", {
+      error : function (){
+         console.log("JSON error");
+      },
+      success: function (response){
+         quizInit(response);
+      }
+   });
+});
+
+/**
+ * DESCRIPTION : Function to initalize application
+ * @param response 
+ */
+function quizInit(response:JSON) {
+   jsonObj = response;
    getEntries(jsonObj.easy, easyQuestions);
    getEntries(jsonObj.intermediate, intermediateQuestions);
    getEntries(jsonObj.difficult, difficultQuestions);
@@ -44,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
    }
 
    selectQuestion(DifficultyLevel.EASY);
-});
+}
 
 /**
  * DESCRIPTION : This function populates QuizObject in respective lists.
