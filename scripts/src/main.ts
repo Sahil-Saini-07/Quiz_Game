@@ -18,8 +18,8 @@ let jsonObj:any;
 let easyQuestions:QuizObject[] = []; //list holding easy level questions
 let intermediateQuestions:QuizObject[] =[];  //list holding medium level questions 
 let difficultQuestions:QuizObject[] = []; //list holding difficult level questions
-let questionDOMElement:HTMLElement; //reference question div
-let questionOptionsList:HTMLCollection; //reference to option divs
+let questionDOMElement:JQuery<HTMLElement> //reference question div
+let questionOptionsList:JQuery<HTMLElement>; //reference to option divs
 let currentQuestion: QuizObject; //question currently visible to user
 let counter:number = 0; //counter to track progress
 let globalTimer:number; //global timer
@@ -46,20 +46,17 @@ function quizInit(response:JSON) {
    getEntries(jsonObj.intermediate, intermediateQuestions);
    getEntries(jsonObj.difficult, difficultQuestions);
   
-   questionDOMElement = document.getElementById("question")!;
-   questionOptionsList = document.getElementsByClassName("option");
+   questionDOMElement = $("#question")!;
+   questionOptionsList = $(".option");
 
-
-   document.getElementById("playAgainButton")!.addEventListener("click", function(){
+  $("#playAgainButton").on("click", function(){
       location.reload();
    });
 
-   for (var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
-      questionOptionsList[iterator].addEventListener("click", function(event:Event) {
-        evaluateOption(event.target);
-      });
-   }
-
+   questionOptionsList.on("click", function(event) {
+        evaluateOption($(this));
+   });
+   
    selectQuestion(DifficultyLevel.EASY);
 }
 
@@ -84,14 +81,13 @@ function getEntries(obj: QuestionInterface[] , array: QuizObject[]):void {
  * else restart the game.
  * @param eventTarget 
  */
-function evaluateOption(eventTarget:any) {
+function evaluateOption(reference:JQuery<HTMLElement>) {
    clearTimeout(globalTimer);
-   var selectedOptionText:string = (eventTarget as HTMLElement).dataset.value!;
-   console.log(counter);
-   var progressDot = document.getElementById("progress-"+counter)!;
+   var selectedOptionText:string = reference.prop("answer-value");
+   var progressDot:JQuery<HTMLElement> = $("#progress-"+counter);
    if(selectedOptionText == currentQuestion.getAnswer()) {
-      (eventTarget as HTMLElement).classList.add("correct-answer");
-      progressDot.classList.add("correct-answer") ;
+      reference.addClass("correct-answer");
+      progressDot.addClass("correct-answer");
       globalTimer = setTimeout(function() {
          if(counter < 4) {
             selectQuestion(DifficultyLevel.EASY);
@@ -103,15 +99,13 @@ function evaluateOption(eventTarget:any) {
          else {
            displayResult(true);
          }         
-
       },1000)
    } else {
-      (eventTarget as HTMLElement).classList.add("incorrect-answer");
-      progressDot.classList.add("incorrect-answer") ;
+      reference.addClass("incorrect-answer");
+      progressDot.addClass("incorrect-answer") ;
       globalTimer = setTimeout(function() {
          displayResult(false);
       },1000)
-
    } 
 }
 
@@ -153,12 +147,14 @@ function selectQuestion(difficulty:number) {
  * @param quizObject 
  */
 function printQuestion(quizObject: QuizObject) {
-   (questionDOMElement as HTMLElement).innerText = quizObject.getQuestion();
+   questionDOMElement.text(quizObject.getQuestion());
    let optionArray: string[] = quizObject.getOptions().split(",");
+   let questionOption;
    for(var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
-      (questionOptionsList[iterator] as HTMLElement).innerText = (iterator + 1) + ". " +  optionArray[iterator];
-      (questionOptionsList[iterator] as HTMLElement).dataset.value = optionArray[iterator];
-      (questionOptionsList[iterator] as HTMLElement).classList.remove("correct-answer");
+      questionOption = $(questionOptionsList[iterator]);
+      questionOption.text( (iterator + 1) + ". " +  optionArray[iterator] );
+      questionOption.prop("answer-value", optionArray[iterator] );
+      questionOption.removeClass("correct-answer");
    }
 
 }
@@ -168,16 +164,16 @@ function getRandomIndex(array: QuizObject[]){
 }
 
 function displayResult(wonGame:boolean){
-   let quizContainer = document.getElementById("quizContainerDiv")!;
-   let resultDiv = document.getElementById("resultDiv")!;
-   let resultText = document.getElementById("resultText")!;
+   let quizContainer = $("#quizContainerDiv");
+   let resultDiv = $("#resultDiv");
+   let resultText = $("#resultText");
 
-   quizContainer.classList.add("hide-element")
-   resultDiv.classList.remove("hide-element");
+   quizContainer.addClass("hide-element")
+   resultDiv.removeClass("hide-element");
    
    if(wonGame) {
-      resultText.innerText = "You Won";
+      resultText.text("You Won");
    } else {
-      resultText.innerText = "You Lost";
+      resultText.text("You Lost");
    }
 }
