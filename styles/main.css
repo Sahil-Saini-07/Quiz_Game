@@ -29,17 +29,6 @@ header {
   margin: 0.5rem;
 }
 
-#progressContainer {
-  margin-top: 1rem;
-}
-
-#question {
-  border: 2px solid;
-  padding: 0.5rem;
-  font-size: 2rem;
-  border-radius: 5px;
-}
-
 .option {
   border: 2px solid;
   border-radius: 5px;
@@ -73,15 +62,26 @@ header {
   background-color: #d6ae7b !important;
 }
 
+.hide-element {
+  display: none !important;
+}
+
+#progressContainer {
+  margin-top: 1rem;
+}
+
+#question {
+  border: 2px solid;
+  padding: 0.5rem;
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
 #resultDiv {
   margin-top: 3.5rem;
 }
 
 #resultText {
   font-size: 2rem;
-}
-
-.hide-element {
-  display: none !important;
 }
 /*# sourceMappingURL=main.css.map */

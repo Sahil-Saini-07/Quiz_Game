@@ -1,3 +1,4 @@
+<!--Index.html-->
 <!doctype html>
 <html>
   <head>
@@ -11,55 +12,60 @@
     <link rel="stylesheet" href="./styles/main.css">
     <title>Quiz Mania</title>
 
-</head>
+  </head>
   <body>
-    <header class="text-center">
+    <!-- header-->
+    <header class="text-center"> 
       Quiz Mania
     </header>
-    <div class="container content-outer-container" id="quizContainerDiv">
+
+    <!-- main body-->
+    <div class="container content-outer-container hide-element" id="quizContainerDiv">
       <div class="row content-body">
         <div id="quizContainer" class="col-9">
           <div id="question" class="my-4">
-            Who won the Euro Cup 2016?
+            <!--question-->
           </div>
           <div id="answerContainer">
             <div class="option answer-1 w-50">
-              Portugal
+              <!--option-->
             </div>
             <div class="option answer-2 w-50">
-              France
+              <!--option-->
             </div>
             <div class="option answer-3 w-50">
-              Spain
+              <!--option-->
             </div>
             <div class="option answer-4 w-50">
-              Germany
+              <!--option-->
             </div>
           </div>
         </div>
 
-        <!--Point calculator-->
+        <!--Point indicator-->
         <div class="col-3 d-flex flex-column align-items-center" id ="progressContainer">
-          <div class="point" id="progress-10"></div>
-          <div class="point" id="progress-9"></div>
-          <div class="point" id="progress-8"></div>
-          <div class="point" id="progress-7"></div>
-          <div class="point" id="progress-6"></div>
-          <div class="point" id="progress-5"></div>
-          <div class="point" id="progress-4"></div>
-          <div class="point" id="progress-3"></div>
-          <div class="point" id="progress-2"></div>
-          <div class="point" id="progress-1"></div>
+          <div class="point" id="progress10"></div>
+          <div class="point" id="progress9"></div>
+          <div class="point" id="progress8"></div>
+          <div class="point" id="progress7"></div>
+          <div class="point" id="progress6"></div>
+          <div class="point" id="progress5"></div>
+          <div class="point" id="progress4"></div>
+          <div class="point" id="progress3"></div>
+          <div class="point" id="progress2"></div>
+          <div class="point" id="progress1"></div>
         </div>
  
       </div>
     </div>
+
+    <!--Result div-->
     <div id="resultDiv" class="d-flex flex-column justify-content-center align-items-center hide-element">
       <div id="resultText">
-        You lost
+        <!--result text-->
       </div>
       <button type="button" class="btn btn-primary mt-4" id="playAgainButton"> 
-        Play again
+        Play Again
       </button>
     </div>
     

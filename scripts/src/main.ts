@@ -1,5 +1,4 @@
 import { QuizObject } from './QuizObject';
-//import { jsonObj } from './jsonObj';
 import $ from 'jquery';
 
 enum DifficultyLevel {
@@ -14,7 +13,10 @@ interface QuestionInterface {
    Answer: string;
 }
 
-let jsonObj:any;
+interface responseStructure {
+   [prop:string]:QuestionInterface[];
+}
+
 let easyQuestions:QuizObject[] = []; //list holding easy level questions
 let intermediateQuestions:QuizObject[] =[];  //list holding medium level questions 
 let difficultQuestions:QuizObject[] = []; //list holding difficult level questions
@@ -26,25 +28,29 @@ let globalTimer:number; //global timer
 
 
 $(document).ready(function(event) {
-   $.ajax("data.json", {
-      error : function (){
-         console.log("JSON error");
-      },
-      success: function (response){
-         quizInit(response);
-      }
-   });
+   try {
+      $.ajax("data.json", {
+         error : function (){
+            throw new Error("Response parsing error");
+         },
+         success: function (response){
+            quizInit(response);
+            $("#quizContainerDiv").removeClass("hide-element");
+         }
+      });
+   } catch(error) {
+      console.log(error.message());
+   }
 });
 
 /**
- * DESCRIPTION : Function to initalize application
+ * DESCRIPTION : Function to initalize game
  * @param response 
  */
-function quizInit(response:JSON) {
-   jsonObj = response;
-   getEntries(jsonObj.easy, easyQuestions);
-   getEntries(jsonObj.intermediate, intermediateQuestions);
-   getEntries(jsonObj.difficult, difficultQuestions);
+function quizInit(response:responseStructure) {
+   getEntries(response.easy, easyQuestions);
+   getEntries(response.intermediate, intermediateQuestions);
+   getEntries(response.difficult, difficultQuestions);
   
    questionDOMElement = $("#question")!;
    questionOptionsList = $(".option");
@@ -78,16 +84,16 @@ function getEntries(obj: QuestionInterface[] , array: QuizObject[]):void {
 
 /**
  * DESCRIPTION : This function evaluates selected option. If option is correct move to next question
- * else restart the game.
+ * else game over.
  * @param eventTarget 
  */
 function evaluateOption(reference:JQuery<HTMLElement>) {
    clearTimeout(globalTimer);
    var selectedOptionText:string = reference.prop("answer-value");
-   var progressDot:JQuery<HTMLElement> = $("#progress-"+counter);
+   var progressDot:JQuery<HTMLElement> = $("#progress"+counter);
+   
    if(selectedOptionText == currentQuestion.getAnswer()) {
-      reference.addClass("correct-answer");
-      progressDot.addClass("correct-answer");
+      reference.add(progressDot).addClass("correct-answer");
       globalTimer = setTimeout(function() {
          if(counter < 4) {
             selectQuestion(DifficultyLevel.EASY);
@@ -99,13 +105,12 @@ function evaluateOption(reference:JQuery<HTMLElement>) {
          else {
            displayResult(true);
          }         
-      },1000)
+      },1000);
    } else {
-      reference.addClass("incorrect-answer");
-      progressDot.addClass("incorrect-answer") ;
+      reference.add(progressDot).addClass("incorrect-answer");
       globalTimer = setTimeout(function() {
          displayResult(false);
-      },1000)
+      },1000);
    } 
 }
 
@@ -116,6 +121,7 @@ function evaluateOption(reference:JQuery<HTMLElement>) {
 function selectQuestion(difficulty:number) {
    let quizObject:QuizObject = new QuizObject("", "","");
    let randomIndex:number =0;
+
    switch(difficulty) {
       case DifficultyLevel.EASY:
          randomIndex = getRandomIndex(easyQuestions);
@@ -143,7 +149,7 @@ function selectQuestion(difficulty:number) {
 }
 
 /**
- * DESCRIPTION : Function to print question or update html.
+ * DESCRIPTION : Function to render next question.
  * @param quizObject 
  */
 function printQuestion(quizObject: QuizObject) {
@@ -152,17 +158,24 @@ function printQuestion(quizObject: QuizObject) {
    let questionOption;
    for(var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
       questionOption = $(questionOptionsList[iterator]);
-      questionOption.text( (iterator + 1) + ". " +  optionArray[iterator] );
+      questionOption.text( String.fromCharCode(65 + iterator) + ") " +  optionArray[iterator] );
       questionOption.prop("answer-value", optionArray[iterator] );
       questionOption.removeClass("correct-answer");
    }
-
 }
 
+/**
+ * DESCRIPTION : Function to generate random array index.
+ * @param array 
+ */
 function getRandomIndex(array: QuizObject[]){
    return Math.floor(Math.random() * array.length);
 }
 
+/**
+ * DESCRIPTION : Function to display result to the screen.
+ * @param wonGame
+ */
 function displayResult(wonGame:boolean){
    let quizContainer = $("#quizContainerDiv");
    let resultDiv = $("#resultDiv");
