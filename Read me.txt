@@ -1,5 +1,0 @@
-Quiz Mania is a web quiz game.
-There are total 10 questions and three levels -easy, medium and hard.
-First 4 questions falls under easy, and next three falls under medium and last three falls under hard.
-Each question have four options.
-Wrong answer results into immediate game over.
