@@ -68,10 +68,7 @@ function quizInit(response:responseStructure) {
 function getEntries(obj: QuestionInterface[] , array: QuizObject[]):void {
    for(var iterator:number = 0; iterator < obj.length; iterator++) {
       var entry = obj[iterator];
-      var question:string =  entry.question;
-      var answer:string = entry.answer;
-      var options:string =entry.options;
-      var questionObject = new QuizObject(question, options, answer);
+      var questionObject = new QuizObject(entry.question, entry.options, entry.answer);
       array.push(questionObject);
    }
 }
