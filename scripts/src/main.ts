@@ -1,16 +1,10 @@
-import { QuizObject } from './QuizObject';
+import { QuizObject, QuestionInterface } from './QuizObject';
 import $ from 'jquery';
 
 enum DifficultyLevel {
    EASY = 0,
    MEDIUM = 1,
    DIFFICULT = 2
-}
-
-interface QuestionInterface {
-   Question: string;
-   Options: string;
-   Answer: string;
 }
 
 interface responseStructure {
@@ -74,9 +68,9 @@ function quizInit(response:responseStructure) {
 function getEntries(obj: QuestionInterface[] , array: QuizObject[]):void {
    for(var iterator:number = 0; iterator < obj.length; iterator++) {
       var entry = obj[iterator];
-      var question:string =  entry.Question;
-      var answer:string = entry.Answer;
-      var options:string =entry.Options;
+      var question:string =  entry.question;
+      var answer:string = entry.answer;
+      var options:string =entry.options;
       var questionObject = new QuizObject(question, options, answer);
       array.push(questionObject);
    }
@@ -92,7 +86,7 @@ function evaluateOption(reference:JQuery<HTMLElement>) {
    var selectedOptionText:string = reference.prop("answer-value");
    var progressDot:JQuery<HTMLElement> = $("#progress"+counter);
    
-   if(selectedOptionText == currentQuestion.getAnswer()) {
+   if(selectedOptionText == currentQuestion.getAnswer) {
       reference.add(progressDot).addClass("correct-answer");
       globalTimer = setTimeout(function() {
          if(counter < 4) {
@@ -153,8 +147,8 @@ function selectQuestion(difficulty:number) {
  * @param quizObject 
  */
 function printQuestion(quizObject: QuizObject) {
-   questionDOMElement.text(quizObject.getQuestion());
-   let optionArray: string[] = quizObject.getOptions().split(",");
+   questionDOMElement.text(quizObject.getQuestion);
+   let optionArray: string[] = quizObject.getOptions.split(",");
    let questionOption;
    for(var iterator:number=0; iterator < questionOptionsList.length; iterator++) {
       questionOption = $(questionOptionsList[iterator]);

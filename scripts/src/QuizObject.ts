@@ -1,4 +1,4 @@
-export class QuizObject {
+export class QuizObject implements QuestionInterface{
     question:string;
     options: string;
     answer: string;
@@ -9,16 +9,22 @@ export class QuizObject {
      this.answer = answer;
     }
     
-    getQuestion():string {
+    get getQuestion():string {
        return this.question;
     }
  
-    getOptions():string {
+    get getOptions():string {
          return this.options;
     }
  
-    getAnswer():string {
+    get getAnswer():string {
         return this.answer;
     }
+ }
+
+ export interface QuestionInterface {
+    question: string;
+    options: string;
+    answer: string;
  }
  
